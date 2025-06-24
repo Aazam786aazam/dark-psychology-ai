@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Script Generator</title>
+  <style>
+    body { font-family: Arial; background: #111; color: #eee; padding: 2rem; }
+    input, button, textarea {
+      width: 100%; padding: 1rem; margin: 1rem 0;
+      background: #222; color: #fff; border: none; border-radius: 8px;
+    }
+    #response { white-space: pre-wrap; background: #1a1a1a; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🧠 Dark Psychology Script Generator</h1>
+  <input id="prompt" placeholder="Apna sawaal likho..." />
+  <button onclick="generate()">Generate</button>
+  <div id="response">Yahan jawab aayega...</div>
+
+  <script>
+    async function generate() {
+      const prompt = document.getElementById('prompt').value;
+      document.getElementById('response').innerText = "⏳ Thinking...";
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      document.getElementById('response').innerText = data.choices?.[0]?.message?.content || "Kuch galti ho gayi.";
+    }
+  </script>
+</body>
+</html>
